@@ -20,6 +20,7 @@ model User {
   payments    Payment[]
   notifications Notification[]
   activityLogs ActivityLog[]
+  files File[]
 }
 
 model Session {
@@ -78,6 +79,15 @@ model ActivityLog {
   action String 
   user User @relation(fields: [userId], references: [id])
   userId String 
+  createdAt DateTime @default(now())
+}
+
+model File {
+  id String @id @default(uuid())
+  filename String 
+  path String 
+  user User @relation(fields: [userId], references: [id])
+  userId String
   createdAt DateTime @default(now())
 }
 

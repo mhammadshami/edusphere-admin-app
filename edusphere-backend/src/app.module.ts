@@ -10,9 +10,10 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { ActivityLogsModule } from './activity-logs/activity-logs.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { TestModule } from './test/test.module';
+import { FilesModule } from './files/files.module';
 
 @Module({
-  imports: [UsersModule, AuthModule, CoursesModule, EnrollmentsModule, PaymentsModule, NotificationsModule, ActivityLogsModule, DashboardModule, TestModule],
+  imports: [UsersModule, AuthModule, CoursesModule, EnrollmentsModule, PaymentsModule, NotificationsModule, ActivityLogsModule, DashboardModule, TestModule, FilesModule],
   controllers: [AppController],
   providers: [AppService],
 })

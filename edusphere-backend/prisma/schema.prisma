@@ -17,6 +17,7 @@ model User {
   enrollments Enrollment[]
   createdAt DateTime  @default(now())
   courses    Course[]
+  payments Payment[]
 }
 
 model Session {
@@ -37,6 +38,7 @@ model Course {
   instructor   User     @relation(fields: [instructorId], references: [id])
   instructorId String
   enrollments Enrollment[]
+  payments Payment[]
   createdAt    DateTime @default(now())
 }
 
@@ -49,8 +51,24 @@ model Enrollment {
   createdAt DateTime @default(now())
 }
 
+model Payment {
+  id String @id @default(uuid())
+  amount Float
+  status PendingStatus @default(PENDING)
+  user User @relation(fields: [userId], references: [id])
+  userId String 
+  course Course @relation(fields: [courseId], references: [id])
+  courseId String 
+  createdAt DateTime @default(now())
+}
 enum Role {
   STUDENT
   INSTRUCTOR
   ADMIN
+}
+
+enum PendingStatus {
+  PENDING 
+  CONFIRMED 
+  FAILED
 }

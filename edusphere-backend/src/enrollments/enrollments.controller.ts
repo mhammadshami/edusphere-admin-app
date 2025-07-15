@@ -13,6 +13,7 @@ import { CreateEnrollmentDto } from './dto/create-enrollment.dto';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { RolesGuard } from 'src/auth/decorators/roles.guard';
 
 @Controller('enrollments')
 export class EnrollmentsController {
@@ -32,6 +33,7 @@ export class EnrollmentsController {
     return this.enrollmentsService.findUserEnrollments(user.userId);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN')
   @Delete(':id')
   delete(@Param('id') id: string) {

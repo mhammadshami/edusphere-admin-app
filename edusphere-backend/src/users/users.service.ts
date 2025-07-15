@@ -13,7 +13,8 @@ export class UsersService {
       data: {
         name: dto.name,
         email: dto.email,
-        password: hashedPassword
+        password: hashedPassword,
+        role: dto.role,
       },
     });
   }

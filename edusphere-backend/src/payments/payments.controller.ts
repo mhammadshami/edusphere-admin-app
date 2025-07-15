@@ -13,6 +13,8 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from 'src/auth/decorators/roles.guard';
 
 @Controller('payments')
 export class PaymentsController {
@@ -32,12 +34,14 @@ export class PaymentsController {
     return this.paymentsService.findUserPayments(user.userId);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN')
   @Get()
   findAll() {
     return this.paymentsService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN')
   @Patch(':id/confirm')
   confirm(@Param('id') id: string) {

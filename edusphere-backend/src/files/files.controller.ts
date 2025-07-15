@@ -7,15 +7,19 @@ import {
   Param,
   Post,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { RolesGuard } from 'src/auth/decorators/roles.guard';
 
 @Controller('files')
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN', 'INSTRUCTOR', 'STUDENT')
   @Post('upload')
   @UseInterceptors(FileInterceptor('file', { dest: './uploads' }))
@@ -30,6 +34,7 @@ export class FilesController {
     );
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN', 'INSTRUCTOR', 'STUDENT')
   @Get('my')
   getMyFiles(@CurrentUser() user: any) {
@@ -37,6 +42,7 @@ export class FilesController {
   }
 
 
+   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN')
   @Delete(':id')
   deleteFile(@Param('id') id: string) {
